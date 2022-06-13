@@ -7,7 +7,6 @@ async function list(request, respond) {
   respond.json({ data: data });
 }
 
-/*
 // create function that creates a new reservation
 async function create(request, respond, next) {
   const data = await service.create(request.body.data);
@@ -18,9 +17,8 @@ async function create(request, respond, next) {
     message: "Something went wrong!"
   })
 }
-*/
 
 module.exports = {
   list: asyncError(list),
-  //create: asyncError(create),
+  create: asyncError(create),
 };
