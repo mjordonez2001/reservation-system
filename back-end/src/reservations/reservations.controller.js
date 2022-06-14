@@ -12,10 +12,13 @@ async function create(request, response, next) {
   const data = await service.create(request.body.data);
   if (data) return response.status(201).json({ data: data })
 
-  next({
-    status: 400,
-    message: "Something went wrong!"
-  })
+  next({ status: 400, message: "Something went wrong!" })
+}
+
+// read function that returns a reservation based on the reservation_id
+async function read(request, response, next) {
+  const { reservation } = response.locals;
+  response.status(201).json({ data: reservation })
 }
 
 // ------------- middleware ------------- //
@@ -38,10 +41,7 @@ function hasRequiredProperties(request, response, next) {
   required_properties.forEach((property) => {
     const value = data[property];
     if (!value || value === "") {
-      next ({
-        status: 400,
-        message: `A ${property} property is required.`
-      })
+      next ({ status: 400, message: `A ${property} property is required.` })
     }
   })
   next();
@@ -69,8 +69,20 @@ function validProperties(request, response, next) {
   next();
 }
 
+// validates that reservation_id exists
+async function reservationExists(request, response, next) {
+  const data = await service.read(request.params.reservation_id);
+  if (data) {
+    response.locals.reservation = data;
+    next();
+  }
+
+  next({ status: 404, message: `Reservation ${request.params.reservation_id} does not exist` })
+}
+
 
 module.exports = {
   list: asyncError(list),
   create: [asyncError(hasRequiredProperties), asyncError(validProperties), asyncError(create)],
+  read: [asyncError(reservationExists), asyncError(read)]
 };
