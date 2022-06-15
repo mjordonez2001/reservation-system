@@ -1,34 +1,42 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
+import { createReservation } from "../utils/api";
 
 // creates a new reservation
 function NewReservation() {
-  // TO DO: be able to update data to API
   // TO DO: use history to go back when user clicks cancel button
 
   // initializes from data for the reservationData state
   const initialFormData = {
     first_name: "", 
     last_name: "", 
-    mobile_numer: "", 
+    mobile_number: "", 
     reservation_date: "",
     reservation_time: "",
-    people: "0"
+    people: ""
   };
   const [reservationData, setReservationData] = useState({...initialFormData});
   const history = useHistory();
 
   // updates reservationData on change
   const handleChange = ({target}) => {
-    setReservationData({
-      ...reservationData,
-      [target.name]: target.value
-    });
+    if (target.name === "people") {;
+      setReservationData({
+        ...reservationData,
+        [target.name]: Number(target.value)
+      });
+    } else {
+      setReservationData({
+        ...reservationData,
+        [target.name]: target.value
+      });
+    }
   };
 
   // -- front end only -- sends the user back to dashboard after submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    createReservation(reservationData);
 
     setReservationData({...initialFormData});
     history.push(`/`);
@@ -69,7 +77,7 @@ function NewReservation() {
             className="form-control"
             id="mobile_number"
             name="mobile_number"
-            value={reservationData.mobile_numer}
+            value={reservationData.mobile_number}
             onChange={handleChange}
             required
           />
@@ -101,7 +109,7 @@ function NewReservation() {
         <div>
           <label htmlFor="people">Party Size</label>
           <input 
-            type="number"
+            type="text"
             className="form-control"
             id="people"
             name="people"
