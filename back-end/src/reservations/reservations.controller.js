@@ -1,10 +1,12 @@
 const service = require("./reservations.service");
 const asyncError = require("../errors/asyncErrorBoundary");
 
-// list function that lists all reservations
+// list function that lists all reservations based on the date from the query
 async function list(request, response) {
-  const data = await service.list();
-  response.json({ data: data });
+  const date = request.query.date;
+  const data = await service.listDate(date);
+
+  response.status(200).json({ data: data });
 }
 
 // create function that creates a new reservation
