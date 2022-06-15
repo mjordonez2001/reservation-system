@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
+import ErrorAlert from "../layout/ErrorAlert";
 
-// creates a new reservation
+// from that creates a new reservation
 function NewReservation() {
-  // TO DO: use history to go back when user clicks cancel button
 
   // initializes from data for the reservationData state
   const initialFormData = {
@@ -17,6 +17,7 @@ function NewReservation() {
   };
   const [reservationData, setReservationData] = useState({...initialFormData});
   const history = useHistory();
+  const [reservationsError, setReservationsError] = useState(null);
 
   // updates reservationData on change
   const handleChange = ({target}) => {
@@ -33,18 +34,27 @@ function NewReservation() {
     }
   };
 
-  // -- front end only -- sends the user back to dashboard after submission
+  // on form submittion, it creates a new reservation and then sends the user back to the dashboard
   const handleSubmit = (event) => {
     event.preventDefault();
-    createReservation(reservationData);
 
-    setReservationData({...initialFormData});
-    history.push(`/`);
+    try {
+      createReservation(reservationData);
+      setReservationData({...initialFormData});
+      history.push(`/`);
+
+    } catch (error) {
+      setReservationsError(error);
+    }
   }
+
+  // when the user hits cancel, it takes them back to the previous page
+  const handleCancel = () => history.goBack();
 
   // html
   return (
     <>
+      <ErrorAlert error={reservationsError} />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="first_name">First Name</label>
@@ -55,7 +65,6 @@ function NewReservation() {
             name="first_name"
             value={reservationData.first_name}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -67,7 +76,6 @@ function NewReservation() {
             name="last_name"
             value={reservationData.last_name}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -79,7 +87,6 @@ function NewReservation() {
             name="mobile_number"
             value={reservationData.mobile_number}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -91,7 +98,6 @@ function NewReservation() {
             name="reservation_date"
             value={reservationData.reservation_date}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -103,7 +109,6 @@ function NewReservation() {
             name="reservation_time"
             value={reservationData.reservation_time}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -115,12 +120,11 @@ function NewReservation() {
             name="people"
             value={reservationData.people}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
           <button type="submit" className="btn btn-primary">Submit</button>
-          <Link to="/" className="btn btn-danger">Cancel</Link>
+          <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
         </div>
       </form>
     </>
