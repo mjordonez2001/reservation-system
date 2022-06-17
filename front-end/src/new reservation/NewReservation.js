@@ -41,7 +41,7 @@ function NewReservation() {
     try {
       createReservation(reservationData);
       setReservationData({...initialFormData});
-      history.push(`/`);
+      history.push(`/dashboard?date=${reservationData.reservation_date}`);
 
     } catch (error) {
       setReservationsError(error);

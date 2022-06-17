@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import useQuery from "../utils/useQuery";
 import { previous, next, today } from "../utils/date-time";
 
 /**
@@ -12,7 +14,10 @@ import { previous, next, today } from "../utils/date-time";
 function Dashboard({ currentDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  const [date, setDate] = useState(currentDate);
+
+  const query = useQuery().get("date");
+  const date = query ? query : currentDate;
+  const history = useHistory();
 
   // loads the dashboard according to the date
   useEffect(() => {
@@ -30,9 +35,9 @@ function Dashboard({ currentDate }) {
   }, [date]);
 
   // handles all button clicks
-  const handlePrev = () => setDate(previous(date));
-  const handleNext = () => setDate(next(date));
-  const handleToday = () => setDate(today());
+  const handlePrev = () => history.push(`dashboard?date=${(previous(date))}`);
+  const handleNext = () => history.push(`dashboard?date=${(next(date))}`);
+  const handleToday = () => history.push(`dashboard?date=${(today())}`);
 
   return (
     <main>
