@@ -4,7 +4,7 @@ import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
 // from that creates a new reservation
-function NewReservation() {
+function ReservationForm() {
 
   // initializes from data for the reservationData state
   const initialFormData = {
@@ -131,4 +131,4 @@ function NewReservation() {
   )
 }
 
-export default NewReservation
+export default ReservationForm;
