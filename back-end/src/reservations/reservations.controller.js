@@ -52,6 +52,8 @@ function hasRequiredProperties(request, response, next) {
 // validates that the properties in request.data are all valid
 function validProperties(request, response, next) {
   const data = request.body.data;
+  const today = new Date();
+  const date = new Date(`${data.reservation_date} ${data.reservation_time}`);
 
   // verifies that that the reservation date is a valid date
   if (!(data.reservation_date.match(/\d{4}-\d{2}-\d{2}/))) {
@@ -66,6 +68,16 @@ function validProperties(request, response, next) {
   // verifies that the number of people is a number
   if (typeof data.people !== "number") {
     next({ status: 400, message: "Invalid number of people." })
+  }
+
+  // verifies that the reservation is set for the future
+  if (date < today) {
+    next({ status: 400, message: "Reservation date must be in the future." });
+  }
+
+  // verifies that the reservation is not made on a tuesday
+  if (date.getDay() == 2) {
+    next({ status: 400, message: "Restaurant is closed on Tuesdays." });
   }
 
   next();
