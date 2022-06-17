@@ -4,6 +4,7 @@ import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
 import { previous, next, today } from "../utils/date-time";
+import ReservationsTable from "./ReservationsTable";
 
 /**
  * Defines the dashboard page.
@@ -51,7 +52,7 @@ function Dashboard({ currentDate }) {
         <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
         <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
       </div>
-      {JSON.stringify(reservations)}
+      {reservations.length ? <ReservationsTable reservations={reservations} /> : <h5>No Reservations</h5>}
     </main>
   );
 }
