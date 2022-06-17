@@ -35,11 +35,12 @@ function ReservationForm() {
   };
 
   // on form submittion, it creates a new reservation and then sends the user back to the dashboard
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     event.preventDefault();
+    const abortController = new AbortController();
 
     try {
-      createReservation(reservationData);
+      await createReservation(reservationData, abortController.signal);
       setReservationData({...initialFormData});
       history.push(`/dashboard?date=${reservationData.reservation_date}`);
 
