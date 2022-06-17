@@ -2,8 +2,8 @@ import React from "react";
 import Reservation from "./Reservation";
 
 function ReservationsTable({ reservations }) {
-  const allReservations = reservations.map((reservation, index) => {
-    return <Reservation reservation={reservation} />
+  const allReservations = reservations.map((reservation, key) => {
+    return <Reservation reservation={reservation} key={key}/>
   });
 
   return (
