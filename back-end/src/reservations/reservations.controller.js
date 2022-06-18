@@ -12,15 +12,15 @@ async function list(request, response) {
 // create function that creates a new reservation
 async function create(request, response, next) {
   const data = await service.create(request.body.data);
-  if (data) return response.status(201).json({ data: data })
+  if (data) return response.status(201).json({ data: data });
 
-  next({ status: 400, message: "Something went wrong!" })
+  next({ status: 400, message: "Something went wrong!" });
 }
 
 // read function that returns a reservation based on the reservation_id
 async function read(request, response, next) {
   const { reservation } = response.locals;
-  response.status(201).json({ data: reservation })
+  response.status(201).json({ data: reservation });
 }
 
 // ------------- middleware ------------- //
@@ -38,13 +38,13 @@ const required_properties = [
 // validates that data has all required properties
 function hasRequiredProperties(request, response, next) {
   const data = request.body.data;
-  if (!data) next({ status: 400, message: "Data is required." })
+  if (!data) next({ status: 400, message: "Data is required." });
 
 
   required_properties.forEach((property) => {
     const value = data[property];
     if (!value || value === "") {
-      next ({ status: 400, message: `A ${property} property is required.` })
+      next ({ status: 400, message: `A ${property} property is required.` });
     }
   })
   next();
@@ -58,17 +58,17 @@ function validProperties(request, response, next) {
 
   // verifies that that the reservation date is a valid date
   if (!(data.reservation_date.match(/\d{4}-\d{2}-\d{2}/))) {
-    next({ status: 400, message: "Invalid reservation_date." })
+    next({ status: 400, message: "Invalid reservation_date." });
   }
 
   // verifies that the reservation time is a valid time
   if (!(data.reservation_time.match(/\d{2}:\d{2}:\d{2}/)) && !(data.reservation_time.match(/\d{2}:\d{2}/))) {
-     next({ status: 400, message: "Invalid reservation_time." })
+     next({ status: 400, message: "Invalid reservation_time." });
   }
 
   // verifies that the number of people is a number
   if (typeof data.people !== "number") {
-    next({ status: 400, message: "Invalid number of people." })
+    next({ status: 400, message: "Invalid number of people." });
   }
 
   // verifies that the reservation is set for the future
@@ -101,7 +101,7 @@ async function reservationExists(request, response, next) {
     next();
   }
 
-  next({ status: 404, message: `Reservation ${request.params.reservation_id} does not exist` })
+  next({ status: 404, message: `Reservation ${request.params.reservation_id} does not exist` });
 }
 
 
