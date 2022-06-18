@@ -40,6 +40,7 @@ function hasRequiredProperties(request, response, next) {
   const data = request.body.data;
   if (!data) next({ status: 400, message: "Data is required." })
 
+
   required_properties.forEach((property) => {
     const value = data[property];
     if (!value || value === "") {
@@ -75,6 +76,15 @@ function validProperties(request, response, next) {
     next({ status: 400, message: "Reservation date must be in the future." });
   }
 
+  // verifies that the reservation is made between 10:30AM and 9:30PM
+  if (
+    (date.getHours() < 10 || date.getHours() > 21) || 
+    (date.getHours() === 10 && date.getMinutes() < 30) || 
+    (date.getHours() === 21 && date.getMinutes() > 30)
+    ) {
+      next({ status: 400, message: "Reservation time must between 10:30AM and 9:30PM" });
+  }
+  
   // verifies that the reservation is not made on a tuesday
   if (date.getDay() == 2) {
     next({ status: 400, message: "Restaurant is closed on Tuesdays." });
