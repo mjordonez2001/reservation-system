@@ -7,6 +7,16 @@ function list() {
     .orderBy("table_name");
 } 
 
+// knex query that returns the table from the given table_id
+function read(table_id) {
+  return knex("tables")
+    .select("*")
+    .where({ "table_id": table_id })
+    .first();
+}
+
 module.exports = {
-  list
+  list,
+  read,
+  
 }
