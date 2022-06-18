@@ -15,8 +15,16 @@ function read(table_id) {
     .first();
 }
 
+// knex query that creates a new table
+async function create(table) {
+  return knex("tables")
+    .insert(table)
+    .returning("*")
+    .then((createdRecords) => createdRecords[0]);
+}
+
 module.exports = {
   list,
   read,
-  
+  create
 }

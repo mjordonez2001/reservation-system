@@ -20,7 +20,7 @@ async function create(request, response, next) {
 // read function that returns a reservation based on the reservation_id
 function read(request, response, next) {
   const { reservation } = response.locals;
-  response.status(201).json({ data: reservation });
+  response.status(200).json({ data: reservation });
 }
 
 // ------------- middleware ------------- //
