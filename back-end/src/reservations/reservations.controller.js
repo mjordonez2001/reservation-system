@@ -35,11 +35,17 @@ const required_properties = [
   "people"
 ]
 
-// validates that data has all required properties
-function hasRequiredProperties(request, response, next) {
+// validates that there is data in the body
+function hasData(request, response, next) {
   const data = request.body.data;
   if (!data) next({ status: 400, message: "Data is required." });
 
+  next();
+}
+
+// validates that data has all required properties
+function hasRequiredProperties(request, response, next) {
+  const data = request.body.data;
 
   required_properties.forEach((property) => {
     const value = data[property];
@@ -107,6 +113,6 @@ async function reservationExists(request, response, next) {
 
 module.exports = {
   list: asyncError(list),
-  create: [asyncError(hasRequiredProperties), asyncError(validProperties), asyncError(create)],
+  create: [asyncError(hasData), asyncError(hasRequiredProperties), asyncError(validProperties), asyncError(create)],
   read: [asyncError(reservationExists), asyncError(read)]
 };
