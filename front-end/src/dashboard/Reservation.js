@@ -6,7 +6,7 @@ function Reservation({ reservation }) {
 
   // seats the reservation on button click
   const handleSeat = () => {
-    history.push(`reservations/:${reservation.reservation_id}/seat`);
+    history.push(`reservations/${reservation.reservation_id}/seat`);
   }
 
   // html
@@ -22,7 +22,7 @@ function Reservation({ reservation }) {
         <button 
           type="button" 
           className="btn btn-primary" 
-          href={`/reservations/${reservation.reservation_id}`}
+          href={`/reservations/${reservation.reservation_id}/seat`}
           onClick={handleSeat}>
             Seat
           </button>
