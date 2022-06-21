@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
-// from that creates a new reservation
+// form that creates a new reservation
 function ReservationForm() {
 
-  // initializes from data for the reservationData state
+  // initializes form data for the reservationData state
   const initialFormData = {
     first_name: "", 
     last_name: "", 
@@ -16,11 +16,11 @@ function ReservationForm() {
     people: ""
   };
   const [reservationData, setReservationData] = useState({...initialFormData});
-  const history = useHistory();
   const [reservationsError, setReservationsError] = useState(null);
+  const history = useHistory();
 
   // updates reservationData on change
-  const handleChange = ({target}) => {
+  const handleChange = ({ target }) => {
     if (target.name === "people") {;
       setReservationData({
         ...reservationData,
@@ -82,7 +82,7 @@ function ReservationForm() {
         <div>
           <label htmlFor="mobile_number">Mobile Number</label>
           <input 
-            type="text"
+            type="tel"
             className="form-control"
             id="mobile_number"
             name="mobile_number"
