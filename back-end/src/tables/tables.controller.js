@@ -1,7 +1,7 @@
 const service = require("./tables.service");
 const reservationService = require("../reservations/reservations.service");
 const asyncError = require("../errors/asyncErrorBoundary");
-const { as } = require("../db/connection");
+const { as, andWhere } = require("../db/connection");
 
 // list function that lists all tables 
 async function list(request, response) {
@@ -34,7 +34,21 @@ async function update(request, response) {
     ...updateData,
     table_id: table_id
   }
+  await service.update(updatedTable);
+  const data = await service.read(table_id);
 
+  response.status(200).json({ data: data });
+}
+
+// delete function that deletes a reservation from a table
+async function clearTable(request, response) {
+  const table = response.locals.table;
+  const table_id = request.params.table_id;
+
+  const updatedTable = {
+    ...table,
+    reservation_id: null
+  }
   await service.update(updatedTable);
   const data = await service.read(table_id);
 
@@ -103,7 +117,7 @@ async function reservationExists(request, response, next) {
   next({ status: 400, message: `A reservation_id property is required.` })
 }
 
-// validates that table is valid and unoccupied
+// validates that table is valid and unoccupied for seating a reservation
 function validTable(request, response, next) {
   const table = response.locals.table;
   const reservation = response.locals.reservation;
@@ -116,6 +130,17 @@ function validTable(request, response, next) {
   // verifies that the table has sufficient capacity
   if (table.capacity < reservation.people) {
     next({ status: 400, message: `Table ${table.table_id} does not have sufficient capacity.` });
+  }
+
+  next();
+}
+
+// validates that table is occupied when removing a reservertion
+function occupiedTable(request, response, next) {
+  const table = response.locals.table;
+
+  if (!table.reservation_id) {
+    next({ status: 400, message: `Table ${table.table_id} is not occupied.` })
   }
 
   next();
@@ -136,5 +161,6 @@ module.exports = {
   list: asyncError(list),
   read: [asyncError(tableExists), asyncError(read)],
   create: [asyncError(hasData), asyncError(hasRequiredProperties), asyncError(validProperties),asyncError(create)],
-  update: [asyncError(hasData), asyncError(tableExists), asyncError(reservationExists), asyncError(validTable), asyncError(update)]
+  update: [asyncError(hasData), asyncError(tableExists), asyncError(reservationExists), asyncError(validTable), asyncError(update)],
+  clearTable: [asyncError(tableExists), asyncError(occupiedTable), asyncError(clearTable)]
 }

@@ -23,6 +23,7 @@ router
 router
   .route("/:table_id/seat")
   .put(controller.update)
+  .delete(controller.clearTable)
   .all(methodNotAllowed);
 
 module.exports = router;
