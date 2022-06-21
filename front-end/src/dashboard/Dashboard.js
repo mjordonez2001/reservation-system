@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
 import { previous, next, today } from "../utils/date-time";
 import ReservationsTable from "./ReservationsTable";
+import TablesTable from "./TablesTable";
 
 /**
  * Defines the dashboard page.
@@ -15,6 +16,9 @@ import ReservationsTable from "./ReservationsTable";
 function Dashboard({ currentDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  
+  const [tables, setTables] = useState([]);
+  const [tablesError, setTablesError] = useState(null);
 
   const query = useQuery().get("date");
   const date = query ? query : currentDate;
@@ -26,9 +30,15 @@ function Dashboard({ currentDate }) {
 
     async function loadDashboard() {
       setReservationsError(null);
+      setTablesError(null);
+
       listReservations({ date }, abortController.signal)
         .then(setReservations)
         .catch(setReservationsError);
+        
+      listTables(abortController.signal)
+        .then(setTables)
+        .catch(setTablesError);
     }
     
     loadDashboard();
@@ -43,7 +53,7 @@ function Dashboard({ currentDate }) {
   return (
     <main>
       <h1>Dashboard</h1>
-      <ErrorAlert error={reservationsError} />
+
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Reservations for date {date}</h4>
       </div>
@@ -52,7 +62,12 @@ function Dashboard({ currentDate }) {
         <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
         <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
       </div>
+
+      <ErrorAlert error={reservationsError} />
       {reservations.length ? <ReservationsTable reservations={reservations} /> : <h5>No Reservations</h5>}
+
+      <ErrorAlert error={tablesError} />
+      {tables.length ? <TablesTable tables={tables} /> : <h5>No Tables</h5>}
     </main>
   );
 }
