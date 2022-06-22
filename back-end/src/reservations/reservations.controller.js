@@ -30,7 +30,7 @@ function read(request, response) {
   response.status(200).json({ data: reservation });
 }
 
-// update function that updates the status of a reservation
+// update function that updates the properties of a reservation
 async function update(request, response) {
   const updateData = request.body.data;
   const reservation_id = request.params.reservation_id;
@@ -146,8 +146,8 @@ function hasValidStatus(request, response, next) {
   const reservation = response.locals.reservation;
   const data = request.body.data;
 
-  // verifies that the status is either booked, seated, or finished
-  if (data.status !== "booked" && data.status !== "seated" && data.status !== "finished") {
+  // verifies that the status is either booked, seated, finished, or cancelled
+  if (data.status !== "booked" && data.status !== "seated" && data.status !== "finished" && data.status !== "cancelled") {
     next({ status: 400, message: "Reservation status is unknown." })
   }
 
@@ -164,5 +164,6 @@ module.exports = {
   list: asyncError(list),
   create: [asyncError(hasData), asyncError(hasRequiredProperties), asyncError(validProperties), asyncError(create)],
   read: [asyncError(reservationExists), asyncError(read)],
-  update: [asyncError(hasData), asyncError(reservationExists), asyncError(hasValidStatus), asyncError(update)]
+  updateStatus: [asyncError(hasData), asyncError(reservationExists), asyncError(hasValidStatus), asyncError(update)],
+  update: [asyncError(hasData), asyncError(reservationExists), asyncError(hasRequiredProperties), asyncError(validProperties), asyncError(update)]
 };
