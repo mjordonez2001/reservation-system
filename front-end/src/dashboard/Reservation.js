@@ -1,7 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { updateStatus } from "../utils/api";
 
-function Reservation({ reservation }) {
+function Reservation({ reservation, setCancelError }) {
   const history = useHistory();
 
   // seats the reservation on button click
@@ -15,8 +16,15 @@ function Reservation({ reservation }) {
   }
 
   // cancels the reservation on button click
-  const handleCancel = () => {
-
+  async function handleCancel() {
+    if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
+      try {
+        await updateStatus(reservation.reservation_id, "cancelled");
+        window.location.reload();
+      } catch (error) {
+        setCancelError(error);
+      }
+    }
   }
 
   // seat button
@@ -58,7 +66,7 @@ function Reservation({ reservation }) {
       <td data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
       <td>{reservation.status === "booked" ?  seatButton : <></>}</td>
       <td>{reservation.status === "booked" ?  editButton : <></>}</td>
-      <td>{cancelButton}</td>
+      <td>{reservation.status !== "cancelled" ?  cancelButton : <></>}</td>
     </tr>
   )
 }
