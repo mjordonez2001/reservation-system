@@ -58,6 +58,18 @@ async function clearTable(request, response) {
   const table = response.locals.table;
   const table_id = request.params.table_id;
 
+  const reservation_id = table.reservation_id;
+  const reservation = await reservationService.read(reservation_id);
+
+  // updates the reservation status
+  const updatedReservation = {
+    ...reservation,
+    reservation_id: reservation_id,
+    status: "finished"
+  }
+  await reservationService.update(updatedReservation);
+
+  // updates the table
   const updatedTable = {
     ...table,
     reservation_id: null
