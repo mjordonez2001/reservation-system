@@ -14,8 +14,9 @@ function ReservationsTable({ reservations }) {
           <th scope="col">First</th>
           <th scope="col">Last</th>
           <th scope="col">Number</th>
-          <th scope="time">Time</th>
-          <th scope="people"># of People</th>
+          <th scope="col">Time</th>
+          <th scope="col"># of People</th>
+          <th scope="col">Status</th>
           <th></th>
         </tr>
       </thead>

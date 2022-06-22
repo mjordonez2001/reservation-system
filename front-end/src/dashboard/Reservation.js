@@ -9,6 +9,15 @@ function Reservation({ reservation }) {
     history.push(`reservations/${reservation.reservation_id}/seat`);
   }
 
+  // seat button
+  const SeatButton = <button 
+    type="button" 
+    className="btn btn-primary" 
+    href={`/reservations/${reservation.reservation_id}/seat`} 
+    onClick={handleSeat}>
+      Seat
+    </button>
+
   // html
   return (
     <tr>
@@ -18,15 +27,8 @@ function Reservation({ reservation }) {
       <td>{reservation.mobile_number}</td>
       <td>{reservation.reservation_time}</td>
       <td>{reservation.people}</td>
-      <td>
-        <button 
-          type="button" 
-          className="btn btn-primary" 
-          href={`/reservations/${reservation.reservation_id}/seat`}
-          onClick={handleSeat}>
-            Seat
-          </button>
-      </td>
+      <td data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
+      <td>{reservation.status === "booked" ?  SeatButton : <></>}</td>
     </tr>
   )
 }
