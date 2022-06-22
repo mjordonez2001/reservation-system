@@ -9,8 +9,6 @@ async function list(request, response) {
 
   if (date) data = await service.listDate(date);
   else if (mobile_number) data = await service.listNumber(mobile_number);
-  // remove
-  else data = await service.list();
   
   response.status(200).json({ data: data });
 }

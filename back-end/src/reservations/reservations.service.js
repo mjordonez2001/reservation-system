@@ -1,12 +1,5 @@
 const knex = require("../db/connection");
 
-// REMOVE
-// knex query that lists all reservations in the reservations table
-function list() {
-  return knex("reservations")
-    .select("*");
-}
-
 // knex query that lists all reservations for a specific date sorted by time
 function listDate(date) {
   return knex("reservations")
@@ -51,7 +44,6 @@ function update(updatedReservation) {
 }
 
 module.exports = {
-  list,
   listDate,
   listNumber,
   create,
