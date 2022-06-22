@@ -16,6 +16,17 @@ function listDate(date) {
     .whereNot({ "status": "finished" });
 }
 
+// knex query that lists all reservations that include the specified mobile number
+function listNumber(mobile_number) {
+  return knex("reservations")
+    .select("*")
+    .whereRaw(
+      "translate(mobile_number, '() -', '') like ?",
+      `%${mobile_number.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+}
+
 // knex query that creates a new resevation
 async function create(reservation) {
   return knex("reservations")
@@ -42,6 +53,7 @@ function update(updatedReservation) {
 module.exports = {
   list,
   listDate,
+  listNumber,
   create,
   read,
   update

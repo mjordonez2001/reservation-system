@@ -1,13 +1,15 @@
 const service = require("./reservations.service");
 const asyncError = require("../errors/asyncErrorBoundary");
 
-// REMOVE REGULAR LIST FUNCTION
-// list function that lists all reservations based on the date from the query
+// list function that lists all reservations based on the date or mobile number from the query
 async function list(request, response) {
   const date = request.query.date;
+  const mobile_number = request.query.mobile_number;
   let data;
 
   if (date) data = await service.listDate(date);
+  else if (mobile_number) data = await service.listNumber(mobile_number);
+  // remove
   else data = await service.list();
   
   response.status(200).json({ data: data });
