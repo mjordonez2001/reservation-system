@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { createReservation } from "../utils/api";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
+import { readReservation, updateReservation, createReservation } from "../utils/api";
 
 // form that creates a new reservation
-function ReservationForm() {
+function ReservationForm({ formType }) {
 
   // initializes form data for the reservationData state
   const initialFormData = {
@@ -16,8 +16,42 @@ function ReservationForm() {
     people: ""
   };
   const [reservationData, setReservationData] = useState({...initialFormData});
+  const [reservation, setReservation] = useState(null)
   const [reservationsError, setReservationsError] = useState(null);
   const history = useHistory();
+  const reservation_id = useParams().reservation_id;
+
+  // reads and loads a reservation if a reservation_id is given
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    if (reservation_id) {
+      async function loadReservation() {
+        setReservationsError(null);
+  
+        readReservation(reservation_id, abortController.signal)
+          .then(setReservation)
+          .catch(setReservationsError)
+      }
+      loadReservation();
+    }
+    return () => abortController.abort();
+  }, [reservation_id]);
+
+  // if a reservation has loaded, it sets the reservationData to the current data in the reservation
+  useEffect(() => {
+    if (reservation) {
+      setReservationData({
+        first_name: reservation.first_name, 
+        last_name: reservation.last_name, 
+        mobile_number: reservation.mobile_number, 
+        reservation_date: reservation.reservation_date.slice(0, 10),
+        reservation_time: reservation.reservation_time,
+        people: reservation.people,
+        reservation_id: reservation.reservation_id
+      });
+    }
+  }, [reservation])
 
   // updates reservationData on change
   const handleChange = ({ target }) => {
@@ -40,7 +74,8 @@ function ReservationForm() {
     const abortController = new AbortController();
 
     try {
-      await createReservation(reservationData, abortController.signal);
+      if (formType === "create") await createReservation(reservationData, abortController.signal);
+      else if (formType === "edit") await updateReservation(reservationData, abortController.signal);
       setReservationData({...initialFormData});
       history.push(`/dashboard?date=${reservationData.reservation_date}`);
 

@@ -18,6 +18,8 @@ function ReservationsTable({ reservations }) {
           <th scope="col"># of People</th>
           <th scope="col">Status</th>
           <th></th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody  className="table-group-divider">
