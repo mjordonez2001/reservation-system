@@ -13,7 +13,7 @@ function listDate(date) {
     .select("*")
     .orderBy("reservation_time")
     .where({ "reservation_date": date })
-    .whereNot({ status: "finished" });
+    .whereNot({ "status": "finished" });
 }
 
 // knex query that creates a new resevation
