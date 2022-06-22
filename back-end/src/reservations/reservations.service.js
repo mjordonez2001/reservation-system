@@ -12,7 +12,8 @@ function listDate(date) {
   return knex("reservations")
     .select("*")
     .orderBy("reservation_time")
-    .where({ "reservation_date": date });
+    .where({ "reservation_date": date })
+    .whereNot({ status: "finished" });
 }
 
 // knex query that creates a new resevation
