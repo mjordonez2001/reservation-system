@@ -13,7 +13,8 @@ function ReservationForm() {
     mobile_number: "", 
     reservation_date: "",
     reservation_time: "",
-    people: ""
+    people: "",
+    status: "booked"
   };
   const [reservationData, setReservationData] = useState({...initialFormData});
   const [reservationsError, setReservationsError] = useState(null);
