@@ -31,9 +31,16 @@ function read(reservation_id) {
     .first();
 }
 
+// knex query that updates the reservation status
+function update(updatedReservation) {
+  return knex("reservations")
+    .where({ "reservation_id": updatedReservation.reservation_id })
+    .update(updatedReservation, "*");
+}
+
 module.exports = {
-  list,
   listDate,
   create,
-  read
+  read,
+  update
 }

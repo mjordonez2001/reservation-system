@@ -18,9 +18,26 @@ async function create(request, response, next) {
 }
 
 // read function that returns a reservation based on the reservation_id
-function read(request, response, next) {
+function read(request, response) {
   const { reservation } = response.locals;
   response.status(200).json({ data: reservation });
+}
+
+// update function that updates the status of a reservation
+async function update(request, response) {
+  const updateData = request.body.data;
+  const reservation_id = request.params.reservation_id;
+  const reservation = response.locals.reservation;
+
+  const updatedReservation = {
+    ...reservation,
+    ...updateData,
+    reservation_id: reservation_id
+  }
+  await service.update(updatedReservation);
+  const data = await service.read(reservation_id);
+
+  response.status(200).json({ data: data });
 }
 
 // ------------- middleware ------------- //
@@ -96,6 +113,13 @@ function validProperties(request, response, next) {
     next({ status: 400, message: "Restaurant is closed on Tuesdays." });
   }
 
+  // verifies that the reservation status is booked
+  if (data.status === "seated") {
+    next({ status: 400, message: "Reservation status cannot be set to 'seated'." })
+  } else if (data.status === "finished") {
+    next({ status: 400, message: "Reservation status cannot be set to 'finished'." })
+  }
+
   next();
 }
 
@@ -104,15 +128,34 @@ async function reservationExists(request, response, next) {
   const data = await service.read(request.params.reservation_id);
   if (data) {
     response.locals.reservation = data;
-    next();
+    return next();
   }
 
   next({ status: 404, message: `Reservation ${request.params.reservation_id} does not exist` });
+}
+
+// validates that a status exists for the reservations
+function hasValidStatus(request, response, next) {
+  const reservation = response.locals.reservation;
+  const data = request.body.data;
+
+  // verifies that the status is either booked, seated, or finished
+  if (data.status !== "booked" && data.status !== "seated" && data.status !== "finished") {
+    next({ status: 400, message: "Reservation status is unknown." })
+  }
+
+  // verifies that the current status is not finished
+  if (reservation.status === "finished") {
+    next({ status: 400, message: "Reservation is already finished." })
+  }
+
+  next();
 }
 
 
 module.exports = {
   list: asyncError(list),
   create: [asyncError(hasData), asyncError(hasRequiredProperties), asyncError(validProperties), asyncError(create)],
-  read: [asyncError(reservationExists), asyncError(read)]
+  read: [asyncError(reservationExists), asyncError(read)],
+  update: [asyncError(hasData), asyncError(reservationExists), asyncError(hasValidStatus), asyncError(update)]
 };
