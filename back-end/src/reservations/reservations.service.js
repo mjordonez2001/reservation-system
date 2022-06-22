@@ -1,6 +1,6 @@
 const knex = require("../db/connection");
 
-// NOT IN USE
+// REMOVE
 // knex query that lists all reservations in the reservations table
 function list() {
   return knex("reservations")
@@ -40,6 +40,7 @@ function update(updatedReservation) {
 }
 
 module.exports = {
+  list,
   listDate,
   create,
   read,

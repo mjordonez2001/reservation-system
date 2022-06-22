@@ -1,20 +1,25 @@
 const service = require("./reservations.service");
 const asyncError = require("../errors/asyncErrorBoundary");
 
+// REMOVE REGULAR LIST FUNCTION
 // list function that lists all reservations based on the date from the query
 async function list(request, response) {
   const date = request.query.date;
-  const data = await service.listDate(date);
+  let data;
 
+  if (date) data = await service.listDate(date);
+  else data = await service.list();
+  
   response.status(200).json({ data: data });
 }
 
 // create function that creates a new reservation
-async function create(request, response, next) {
-  const data = await service.create(request.body.data);
-  if (data) return response.status(201).json({ data: data });
+async function create(request, response) {
+  const data = request.body.data;
+  data.status = "booked";
 
-  next({ status: 400, message: "Something went wrong!" });
+  const reservation = await service.create(data);
+  response.status(201).json({ data: reservation });
 }
 
 // read function that returns a reservation based on the reservation_id

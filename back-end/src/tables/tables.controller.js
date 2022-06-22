@@ -18,9 +18,7 @@ function read(request, response) {
 // create function that creates a new table
 async function create(request, response, next) {
   const data = await service.create(request.body.data);
-  if (data) return response.status(201).json({ data: data });
-  
-  next({ status: 400, message: "Something went wrong!" });
+  response.status(201).json({ data: data });
 }
 
 // update function that updates a table by adding a reservation_id
