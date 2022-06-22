@@ -26,9 +26,22 @@ async function create(request, response, next) {
 // update function that updates a table by adding a reservation_id
 async function update(request, response) {
   const updateData = request.body.data;
+
   const table_id = request.params.table_id;
   const table = response.locals.table;
 
+  const reservation = response.locals.reservation;
+  const reservation_id = reservation.reservation_id;
+
+  // updates the reservation status
+  const updatedReservation = {
+    ...reservation,
+    reservation_id: reservation_id,
+    status: "seated"
+  }
+  await reservationService.update(updatedReservation);
+
+  // updates the table 
   const updatedTable = {
     ...table,
     ...updateData,
@@ -118,7 +131,7 @@ async function reservationExists(request, response, next) {
 }
 
 // validates that table is valid and unoccupied for seating a reservation
-function validTable(request, response, next) {
+function validTableReservation(request, response, next) {
   const table = response.locals.table;
   const reservation = response.locals.reservation;
 
@@ -130,6 +143,11 @@ function validTable(request, response, next) {
   // verifies that the table has sufficient capacity
   if (table.capacity < reservation.people) {
     next({ status: 400, message: `Table ${table.table_id} does not have sufficient capacity.` });
+  }
+
+  // verifies that the reservation status is not already seated
+  if (reservation.status === "seated") {
+    next({ status: 400, message: "Reservation is already seated." })
   }
 
   next();
@@ -161,6 +179,6 @@ module.exports = {
   list: asyncError(list),
   read: [asyncError(tableExists), asyncError(read)],
   create: [asyncError(hasData), asyncError(hasRequiredProperties), asyncError(validProperties),asyncError(create)],
-  update: [asyncError(hasData), asyncError(tableExists), asyncError(reservationExists), asyncError(validTable), asyncError(update)],
+  update: [asyncError(hasData), asyncError(tableExists), asyncError(reservationExists), asyncError(validTableReservation), asyncError(update)],
   clearTable: [asyncError(tableExists), asyncError(occupiedTable), asyncError(clearTable)]
 }
