@@ -5,8 +5,8 @@ import ErrorAlert from "../layout/ErrorAlert";
 function ReservationsTable({ reservations }) {
   const [cancelError, setCancelError] = useState(null);
 
-  const allReservations = reservations.map((reservation, key) => {
-    return <Reservation reservation={reservation} key={key} setCancelError={setCancelError} />
+  const allReservations = reservations.map((reservation) => {
+    return <Reservation reservation={reservation} key={reservation.reservation_id} setCancelError={setCancelError} />
   });
 
   return (

@@ -52,14 +52,9 @@ function SeatReservation() {
   // when a user hits cancel, it takes them back to the previous page
   const handleCancel = () => history.goBack();
 
-  // map the available tables to option tags for the select tag
-  const tableOptions = tables.map((table, key) => {
-    /*
-    if (table.reservation_id) {
-      return <></>;
-    }
-    */
-    return <option value={table.table_id} key={key}>{table.table_name} - {table.capacity}</option>;
+  // maps the available tables to option tags for the select tag
+  const tableOptions = tables.map((table) => {
+    return <option value={table.table_id} key={table.table_id}>{table.table_name} - {table.capacity}</option>;
   });
 
   return (

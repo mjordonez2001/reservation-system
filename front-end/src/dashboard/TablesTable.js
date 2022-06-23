@@ -5,8 +5,8 @@ import ErrorAlert from "../layout/ErrorAlert";
 function TablesTable({ tables }) {
   const [clearError, setClearError] = useState(null);
 
-  const allTables = tables.map((table, key) => {
-    return <Table table={table} key={key} setClearError={setClearError}/>
+  const allTables = tables.map((table) => {
+    return <Table table={table} key={table.table_id} setClearError={setClearError}/>
   });
 
   return (
