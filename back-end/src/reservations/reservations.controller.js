@@ -2,13 +2,14 @@ const service = require("./reservations.service");
 const asyncError = require("../errors/asyncErrorBoundary");
 
 // list function that lists all reservations based on the date or mobile number from the query
-async function list(request, response) {
+async function list(request, response, next)  {
   const date = request.query.date;
   const mobile_number = request.query.mobile_number;
   let data;
 
   if (date) data = await service.listDate(date);
   else if (mobile_number) data = await service.listNumber(mobile_number);
+  else next({ status: 400, message: "Please enter a phone number" });
   
   response.status(200).json({ data: data });
 }

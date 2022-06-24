@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
-import { listTables } from "../utils/api";
+import { listTables, readReservation } from "../utils/api";
 import { seatReservation } from "../utils/api";
 
 
@@ -9,9 +9,11 @@ function SeatReservation() {
 
   const [table_id, setTable_id] = useState("");
   const [tables, setTables] = useState([]);
+  const [reservation, setReservation] = useState({});
 
   const [seatError, setSeatError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
+  const [reservationError, setReservationError] = useState(null);
 
   const history = useHistory();
   const reservation_id = useParams().reservation_id;
@@ -27,9 +29,18 @@ function SeatReservation() {
         .catch(setTablesError)
     }
 
+    async function loadReservation() {
+      setReservationError(null);
+
+      readReservation(reservation_id)
+        .then(setReservation)
+        .catch(setReservationError);
+    }
+
+    loadReservation();
     loadTables();
     return () => abortController.abort();
-  }, [])
+  }, [reservation_id])
 
   // updates the table_id state on change
   const handleChange = ({ target }) => {
@@ -61,9 +72,10 @@ function SeatReservation() {
     <>
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={seatError} />
+      <ErrorAlert error={reservationError} />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="table_id">Choose Table</label>
+          <label htmlFor="table_id">Choose a table for a party of {reservation.people}</label>
           <select 
             className="form-control"
             name="table_id"
