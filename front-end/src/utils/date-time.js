@@ -80,3 +80,8 @@ export function next(currentDate) {
   date.setDate(date.getDate() + 1);
   return asDateString(date);
 }
+
+export function formatDate(currentDate) {
+  let [ year, month, day ] = currentDate.split("-");
+  return `${month}/${day}/${year}`
+}

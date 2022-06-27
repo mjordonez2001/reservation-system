@@ -12,25 +12,30 @@ function ReservationsTable({ reservations }) {
   return (
     <>
       <ErrorAlert error={cancelError} />
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Number</th>
-            <th scope="col">Time</th>
-            <th scope="col"># of People</th>
-            <th scope="col">Status</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody  className="table-group-divider">
-          {allReservations}
-        </tbody>
-      </table>
+      <h4 className="d-flex justify-content-center">Reservations</h4>
+
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr className="table-primary">
+              <th scope="col">ID</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Number</th>
+              <th scope="col">Time</th>
+              <th scope="col">People</th>
+              <th scope="col">Status</th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody  className="table-group-divider">
+            {allReservations}
+          </tbody>
+        </table>
+      </div>
+      
     </>
   )
 }

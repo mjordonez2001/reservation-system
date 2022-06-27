@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import useQuery from "../utils/useQuery";
-import { previous, next, today } from "../utils/date-time";
+import { previous, next, today, formatDate } from "../utils/date-time";
 import ReservationsTable from "./ReservationsTable";
 import TablesTable from "./TablesTable";
 
@@ -51,23 +51,33 @@ function Dashboard({ currentDate }) {
   const handleToday = () => history.push(`dashboard?date=${(today())}`);
 
   return (
-    <main>
-      <h1>Dashboard</h1>
+    <main className="container-fluid">
+      <h1 className="d-flex justify-content-center">Dashboard</h1>
 
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date {date}</h4>
-      </div>
-      <div className="btn-group">
-        <button type="button" className="btn btn-outline-primary" onClick={handlePrev}>Prev.</button>
-        <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
-        <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
+      <div className="mt-4">
+        <h3>Reservations for {formatDate(date)}</h3>
       </div>
 
-      <ErrorAlert error={reservationsError} />
-      {reservations.length ? <ReservationsTable reservations={reservations} /> : <h5>No Reservations</h5>}
+        <div className="btn-group mt-2 mb-4">
+          <button type="button" className="btn btn-outline-primary" onClick={handlePrev}>Prev.</button>
+          <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
+          <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
+        </div>
+      
 
-      <ErrorAlert error={tablesError} />
-      {tables.length ? <TablesTable tables={tables} /> : <h5>No Tables</h5>}
+      <div className="mb-5">
+        <ErrorAlert error={reservationsError} />
+        {reservations.length  
+          ? <ReservationsTable reservations={reservations} /> 
+          : <h4 className="d-flex justify-content-center">No Reservations</h4>}
+      </div>
+      <div>
+        <ErrorAlert error={tablesError} />
+        {tables.length 
+          ? <TablesTable tables={tables} /> 
+          : <h4 className="d-flex justify-content-center">No Tables</h4>}
+      </div>
+      
     </main>
   );
 }

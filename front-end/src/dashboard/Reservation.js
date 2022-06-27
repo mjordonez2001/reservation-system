@@ -57,16 +57,16 @@ function Reservation({ reservation, setCancelError }) {
   // html
   return (
     <tr>
-      <th scope="row">{reservation.reservation_id}</th>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
-      <td>{reservation.mobile_number}</td>
-      <td>{reservation.reservation_time}</td>
-      <td>{reservation.people}</td>
-      <td data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
-      <td>{reservation.status === "booked" ?  seatButton : <></>}</td>
-      <td>{reservation.status === "booked" ?  editButton : <></>}</td>
-      <td>{reservation.status !== "cancelled" ?  cancelButton : <></>}</td>
+      <th scope="row" className="align-middle">{reservation.reservation_id}</th>
+      <td className="align-middle">{reservation.first_name}</td>
+      <td className="align-middle">{reservation.last_name}</td>
+      <td className="align-middle">{reservation.mobile_number}</td>
+      <td className="align-middle">{reservation.reservation_time}</td>
+      <td className="align-middle">{reservation.people}</td>
+      <td className="align-middle" data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
+      <td className="align-middle">{reservation.status === "booked" ?  seatButton : <></>}</td>
+      <td className="align-middle">{reservation.status === "booked" ?  editButton : <></>}</td>
+      <td className="align-middle">{reservation.status !== "cancelled" ?  cancelButton : <></>}</td>
     </tr>
   )
 }

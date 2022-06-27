@@ -47,7 +47,7 @@ function Menu() {
             </Link>
           </li>
         </ul>
-        <div className="text-center d-none d-md-inline">
+        <div className="text-center d-none d-xl-inline">
           <button
             className="btn rounded-circle border-0"
             id="sidebarToggle"

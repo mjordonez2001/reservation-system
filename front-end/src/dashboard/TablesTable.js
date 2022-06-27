@@ -12,20 +12,25 @@ function TablesTable({ tables }) {
   return (
     <>
       <ErrorAlert error={clearError} />
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Table Name</th>
-            <th scope="col">Capacity</th>
-            <th scope="col">Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody className="table-group-divider">
-          {allTables}
-        </tbody>
-      </table>
+      <h4 className="d-flex justify-content-center">Tables</h4>
+
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr className="table-primary">
+              <th scope="col">ID</th>
+              <th scope="col">Table Name</th>
+              <th scope="col">Capacity</th>
+              <th scope="col">Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody className="table-group-divider">
+            {allTables}
+          </tbody>
+        </table>
+      </div>
+      
     </>
   )
   

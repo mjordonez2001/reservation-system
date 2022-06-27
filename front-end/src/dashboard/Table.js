@@ -27,11 +27,11 @@ function Table({ table, setClearError}) {
 
   return (
     <tr>
-      <th scope="row">{table.table_id}</th>
-      <td>{table.table_name}</td>
-      <td>{table.capacity}</td>
-      <td data-table-id-status={table.table_id}>{table.reservation_id ? <>Occupied</> : <>Free</>} </td>
-      <td>{table.reservation_id ? finishButton : <></>}</td>
+      <th scope="row" className="align-middle">{table.table_id}</th>
+      <td className="align-middle">{table.table_name}</td>
+      <td className="align-middle">{table.capacity}</td>
+      <td className="align-middle" data-table-id-status={table.table_id}>{table.reservation_id ? <>Occupied</> : <>Free</>} </td>
+      <td className="align-middle">{table.reservation_id ? finishButton : <></>}</td>
     </tr>
   )
 }
