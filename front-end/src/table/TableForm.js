@@ -50,35 +50,38 @@ function TableForm() {
   // html
   return (
     <>
+      <h2 className="d-flex justify-content-center mb-4">Create table</h2>
       <ErrorAlert error={tablesError} />
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="table_name">Table Name</label>
-          <input 
-            type="text"
-            className="form-control"
-            id="table_name"
-            name="table_name"
-            value={tableData.table_name}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="capacity">Capacity</label>
-          <input 
-            type="number"
-            className="form-control"
-            id="capacity"
-            name="capacity"
-            value={tableData.capacity}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-          <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-        </div>
-      </form>
+      <div className="d-flex justify-content-center">
+        <form onSubmit={handleSubmit} className="col-6">
+          <div className="form-group">
+            <label htmlFor="table_name">Table Name</label>
+            <input 
+              type="text"
+              className="form-control"
+              id="table_name"
+              name="table_name"
+              value={tableData.table_name}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="capacity">Capacity</label>
+            <input 
+              type="number"
+              className="form-control"
+              id="capacity"
+              name="capacity"
+              value={tableData.capacity}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary mr-4">Submit</button>
+            <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </>
   )
 }

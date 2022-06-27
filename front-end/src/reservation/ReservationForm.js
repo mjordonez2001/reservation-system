@@ -153,7 +153,7 @@ function ReservationForm({ formType }) {
           <div className="form-group">
             <label htmlFor="people">Party Size</label>
             <input 
-              type="text"
+              type="number"
               className="form-control"
               id="people"
               name="people"
