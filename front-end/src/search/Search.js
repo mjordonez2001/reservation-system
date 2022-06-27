@@ -34,21 +34,22 @@ function Search() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <h2 className="d-flex justify-content-center">Search by phone number</h2>
+      <form onSubmit={handleSubmit} className="d-flex justify-content-center mt-5">
         <div className="form-group">
-          <label htmlFor="mobile_number">Enter a customer's phone number</label>
-          <input 
-            type="text"
-            placeholder="(###-###-####)"
-            className="form-control"
-            id="mobile_number"
-            name="mobile_number"
-            value={mobile_number}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn btn-primary">Find</button>
+          <label htmlFor="mobile_number" className="d-flex justify-content-center">Enter a customer's phone number</label>
+          <div className="d-flex flex-row justify-content-center">
+            <input 
+              type="text"
+              placeholder="###-###-####"
+              className="form-control"
+              id="mobile_number"
+              name="mobile_number"
+              value={mobile_number}
+              onChange={handleChange}
+            />
+            <button type="submit" className="btn btn-primary ml-1">Find</button>
+          </div>
         </div>
       </form>
       <ErrorAlert error={reservationsError} />
