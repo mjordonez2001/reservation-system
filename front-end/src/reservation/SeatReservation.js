@@ -70,27 +70,31 @@ function SeatReservation() {
 
   return (
     <>
+      <h2 className="d-flex justify-content-center mb-4">Seat reservation</h2>
       <ErrorAlert error={tablesError} />
       <ErrorAlert error={seatError} />
       <ErrorAlert error={reservationError} />
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="table_id">Choose a table for a party of {reservation.people}</label>
-          <select 
-            className="form-control"
-            name="table_id"
-            id="table_id"
-            onChange={handleChange}
-          >
-            <option>Select Table</option>
-            {tableOptions}
-          </select>
-        </div>
-        <div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-          <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-        </div>
-      </form>
+
+      <div className="d-flex justify-content-center">
+        <form onSubmit={handleSubmit} className="col-6">
+          <div className="form-group">
+            <label htmlFor="table_id">Choose a table for a party of {reservation.people}</label>
+            <select 
+              className="form-control"
+              name="table_id"
+              id="table_id"
+              onChange={handleChange}
+            >
+              <option>Select Table</option>
+              {tableOptions}
+            </select>
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary mr-4">Submit</button>
+            <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </>
   )
 }

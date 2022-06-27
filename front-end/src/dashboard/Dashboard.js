@@ -58,11 +58,11 @@ function Dashboard({ currentDate }) {
         <h3>Reservations for {formatDate(date)}</h3>
       </div>
 
-        <div className="btn-group mt-2 mb-4">
-          <button type="button" className="btn btn-outline-primary" onClick={handlePrev}>Prev.</button>
-          <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
-          <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
-        </div>
+      <div className="btn-group mt-2 mb-4">
+        <button type="button" className="btn btn-outline-primary" onClick={handlePrev}>Prev.</button>
+        <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
+        <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
+      </div>
       
 
       <div className="mb-5">
