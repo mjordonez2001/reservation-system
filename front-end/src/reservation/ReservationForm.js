@@ -90,80 +90,83 @@ function ReservationForm({ formType }) {
   // html
   return (
     <>
+      <h2 className="d-flex justify-content-center mb-4">{formType === "create" ? "Create reservation" : "Edit reservation" }</h2>
       <ErrorAlert error={reservationsError} />
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="first_name">First Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="first_name"
-            name="first_name"
-            value={reservationData.first_name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="last_name">Last Name</label>
-          <input 
-            type="text"
-            className="form-control"
-            id="last_name"
-            name="last_name"
-            value={reservationData.last_name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="mobile_number">Mobile Number</label>
-          <input 
-            type="text"
-            placeholder="(###-###-####)"
-            className="form-control"
-            id="mobile_number"
-            name="mobile_number"
-            value={reservationData.mobile_number}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="reservation_date">Reservation Date</label>
-          <input 
-            type="date"
-            className="form-control"
-            id="reservation_date"
-            name="reservation_date"
-            value={reservationData.reservation_date}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="reservation_time">Reservation Time</label>
-          <input 
-            type="time"
-            className="form-control"
-            id="reservation_time"
-            name="reservation_time"
-            value={reservationData.reservation_time}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="people">Party Size</label>
-          <input 
-            type="text"
-            className="form-control"
-            id="people"
-            name="people"
-            value={reservationData.people}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit" className="btn btn-primary">Submit</button>
-          <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-        </div>
-      </form>
+      <div className="d-flex justify-content-center">
+        <form onSubmit={handleSubmit} className="col-6">
+          <div className="form-group">
+            <label htmlFor="first_name">First Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="first_name"
+              name="first_name"
+              value={reservationData.first_name}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="last_name">Last Name</label>
+            <input 
+              type="text"
+              className="form-control"
+              id="last_name"
+              name="last_name"
+              value={reservationData.last_name}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="mobile_number">Mobile Number</label>
+            <input 
+              type="text"
+              placeholder="###-###-####"
+              className="form-control"
+              id="mobile_number"
+              name="mobile_number"
+              value={reservationData.mobile_number}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="reservation_date">Reservation Date</label>
+            <input 
+              type="date"
+              className="form-control"
+              id="reservation_date"
+              name="reservation_date"
+              value={reservationData.reservation_date}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="reservation_time">Reservation Time</label>
+            <input 
+              type="time"
+              className="form-control"
+              id="reservation_time"
+              name="reservation_time"
+              value={reservationData.reservation_time}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="people">Party Size</label>
+            <input 
+              type="text"
+              className="form-control"
+              id="people"
+              name="people"
+              value={reservationData.people}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary mr-4">Submit</button>
+            <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </>
   )
 }
