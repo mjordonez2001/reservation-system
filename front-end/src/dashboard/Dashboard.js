@@ -7,12 +7,7 @@ import { previous, next, today, formatDate } from "../utils/date-time";
 import ReservationsTable from "./ReservationsTable";
 import TablesTable from "./TablesTable";
 
-/**
- * Defines the dashboard page.
- * @param date
- *  the date for which the user wants to view reservations.
- * @returns {JSX.Element}
- */
+// defines the dashboard page.
 function Dashboard({ currentDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
@@ -20,6 +15,7 @@ function Dashboard({ currentDate }) {
   const [tables, setTables] = useState([]);
   const [tablesError, setTablesError] = useState(null);
 
+  // gets the date from the query. if there is no query, it defaults to the current date
   const query = useQuery().get("date");
   const date = query ? query : currentDate;
   const history = useHistory();
@@ -32,10 +28,12 @@ function Dashboard({ currentDate }) {
       setReservationsError(null);
       setTablesError(null);
 
+      // loads all reservations
       listReservations({ date }, abortController.signal)
         .then(setReservations)
         .catch(setReservationsError);
         
+      // loads all tables
       listTables(abortController.signal)
         .then(setTables)
         .catch(setTablesError);
@@ -50,6 +48,7 @@ function Dashboard({ currentDate }) {
   const handleNext = () => history.push(`dashboard?date=${(next(date))}`);
   const handleToday = () => history.push(`dashboard?date=${(today())}`);
 
+  // html
   return (
     <main className="container-fluid">
       <h1 className="d-flex justify-content-center">Dashboard</h1>
@@ -63,7 +62,6 @@ function Dashboard({ currentDate }) {
         <button type="button" className="btn btn-outline-primary" onClick={handleToday}>Today</button>
         <button type="button" className="btn btn-outline-primary" onClick={handleNext}>Next</button>
       </div>
-      
 
       <div className="mb-5">
         <ErrorAlert error={reservationsError} />

@@ -1,13 +1,14 @@
 import React from "react";
 import { clearTable } from "../utils/api";
 
-
+// defines a single table as a table element
 function Table({ table, setClearError}) {
 
   // prompts the user to confirm clearing the table
   async function handleFinish() {
     if (window.confirm("Is this table ready to seat new guests? This cannot be undone.")) {
       try {
+        // clears the table, then reloads the page
         await clearTable(table.table_id);
         window.location.reload();
       } catch (error) {
@@ -25,6 +26,7 @@ function Table({ table, setClearError}) {
       Finish
     </button>
 
+  // html
   return (
     <tr>
       <th scope="row" className="align-middle">{table.table_id}</th>

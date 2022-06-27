@@ -4,23 +4,27 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { listTables, readReservation } from "../utils/api";
 import { seatReservation } from "../utils/api";
 
-
+// defines seat reservation form 
 function SeatReservation() {
 
   const [table_id, setTable_id] = useState("");
   const [tables, setTables] = useState([]);
   const [reservation, setReservation] = useState({});
 
+  // error states
   const [seatError, setSeatError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
   const [reservationError, setReservationError] = useState(null);
 
-  const history = useHistory();
+  // takes the reservation_id based on the params
   const reservation_id = useParams().reservation_id;
+  const history = useHistory();
 
+  // loads all tables and current reservation
   useEffect(() => {
     const abortController = new AbortController();
 
+    // loads all tables
     async function loadTables() {
       setTablesError(null);
 
@@ -29,6 +33,7 @@ function SeatReservation() {
         .catch(setTablesError)
     }
 
+    // reads the reservation
     async function loadReservation() {
       setReservationError(null);
 
@@ -47,11 +52,12 @@ function SeatReservation() {
     setTable_id((currentTableId) => currentTableId = target.value);
   }
 
-  // on form submittion, it updsates the table with the new reservation
+  // on form submittion, it updates the table with the new reservation
   async function handleSubmit(event) {
     event.preventDefault();
     const abortController = new AbortController();
 
+    // updates the table then sends the user back to the dashboard
     try {
       await seatReservation(reservation_id, table_id, abortController.signal);
       history.push(`/dashboard`);
@@ -68,6 +74,7 @@ function SeatReservation() {
     return <option value={table.table_id} key={table.table_id}>{table.table_name} - {table.capacity}</option>;
   });
 
+  // html
   return (
     <>
       <h2 className="d-flex justify-content-center mb-4">Seat reservation</h2>

@@ -3,6 +3,7 @@ import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsTable from "../dashboard/ReservationsTable";
 
+// defines the search page
 function Search() {
 
   const [reservations, setReservations] = useState([]);
@@ -18,7 +19,8 @@ function Search() {
     event.preventDefault();
     const abortController = new AbortController();
 
-    async function loadTables() {
+    // loads the all the reservations that contain the mobile number
+    async function loadReservations() {
       setReservationsError(null);
 
       listReservations({ mobile_number }, abortController.signal)
@@ -26,12 +28,14 @@ function Search() {
         .catch(setReservationsError);
     }
 
-    await loadTables();
-    if (!reservations.length) setSearchResults(<h5>No reservations found</h5>)
+    await loadReservations();
+    // if no reservations contain the mobile number, display "No reservations found"
+    if (!reservations.length) setSearchResults(<h5 className="d-flex justify-content-center">No reservations found</h5>)
 
     return () => abortController.abort();
   }
 
+  //html
   return (
     <>
       <h2 className="d-flex justify-content-center mb-4">Search by phone number</h2>

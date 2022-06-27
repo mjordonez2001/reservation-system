@@ -17,6 +17,7 @@ async function list(request, response, next)  {
 // create function that creates a new reservation
 async function create(request, response) {
   const data = request.body.data;
+  // adds a status of booked
   data.status = "booked";
 
   const reservation = await service.create(data);

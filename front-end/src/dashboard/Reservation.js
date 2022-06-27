@@ -2,23 +2,25 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { updateStatus } from "../utils/api";
 
+// defines a single reservation as a table element
 function Reservation({ reservation, setCancelError }) {
   const history = useHistory();
 
-  // seats the reservation on button click
+  // sends the user to the seat page
   const handleSeat = () => {
     history.push(`/reservations/${reservation.reservation_id}/seat`);
   }
 
-  // sends the user to the edit form on button click
+  // sends the user to the edit form
   const handleEdit = () => {
     history.push(`/reservations/${reservation.reservation_id}/edit`)
   }
 
-  // cancels the reservation on button click
+  // prompts the user to confirm cancel reservation
   async function handleCancel() {
     if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
       try {
+        // updates the reservation to cancelled, then reloads the page
         await updateStatus(reservation.reservation_id, "cancelled");
         window.location.reload();
       } catch (error) {
@@ -66,7 +68,7 @@ function Reservation({ reservation, setCancelError }) {
       <td className="align-middle" data-reservation-id-status={reservation.reservation_id}>{reservation.status}</td>
       <td className="align-middle">{reservation.status === "booked" ?  seatButton : <></>}</td>
       <td className="align-middle">{reservation.status === "booked" ?  editButton : <></>}</td>
-      <td className="align-middle">{reservation.status !== "cancelled" ?  cancelButton : <></>}</td>
+      <td className="align-middle">{reservation.status !== "cancelled" && reservation.status !==  "finished" ?  cancelButton : <></>}</td>
     </tr>
   )
 }

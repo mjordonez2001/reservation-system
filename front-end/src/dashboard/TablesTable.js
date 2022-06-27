@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import Table from "./Table";
 import ErrorAlert from "../layout/ErrorAlert";
 
+// defines the table that contains all tables
 function TablesTable({ tables }) {
   const [clearError, setClearError] = useState(null);
 
+  // maps all tables to the Table component
   const allTables = tables.map((table) => {
     return <Table table={table} key={table.table_id} setClearError={setClearError}/>
   });
 
+  // html
   return (
     <>
       <ErrorAlert error={clearError} />

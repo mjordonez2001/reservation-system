@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import Reservation from "./Reservation";
 import ErrorAlert from "../layout/ErrorAlert";
 
+// defines the table that contains all reservations
 function ReservationsTable({ reservations }) {
   const [cancelError, setCancelError] = useState(null);
 
+  // maps all reservations to the Reservation component
   const allReservations = reservations.map((reservation) => {
     return <Reservation reservation={reservation} key={reservation.reservation_id} setCancelError={setCancelError} />
   });
 
+  // html
   return (
     <>
       <ErrorAlert error={cancelError} />

@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
 import { readReservation, updateReservation, createReservation } from "../utils/api";
 
-// form that creates a new reservation
+// defines the form that creates or edits a reservation based on the formType
 function ReservationForm({ formType }) {
 
   // initializes form data for the reservationData state
@@ -18,14 +18,17 @@ function ReservationForm({ formType }) {
   const [reservationData, setReservationData] = useState({...initialFormData});
   const [reservation, setReservation] = useState(null)
   const [reservationsError, setReservationsError] = useState(null);
-  const history = useHistory();
+
+  // takes the reservation_id based on the params
   const reservation_id = useParams().reservation_id;
+  const history = useHistory();
 
   // reads and loads a reservation if a reservation_id is given
   useEffect(() => {
     const abortController = new AbortController();
 
     if (reservation_id) {
+      // reads the reservation from the reservation_id
       async function loadReservation() {
         setReservationsError(null);
   
@@ -55,7 +58,8 @@ function ReservationForm({ formType }) {
 
   // updates reservationData on change
   const handleChange = ({ target }) => {
-    if (target.name === "people") {;
+    if (target.name === "people") {
+      // makes sure that value for people is a number
       setReservationData({
         ...reservationData,
         [target.name]: Number(target.value)
@@ -68,7 +72,7 @@ function ReservationForm({ formType }) {
     }
   };
 
-  // on form submittion, it creates a new reservation and then sends the user back to the dashboard
+  // on form submittion, it creates or updates a reservation and then sends the user back to the dashboard
   async function handleSubmit(event) {
     event.preventDefault();
     const abortController = new AbortController();
@@ -76,6 +80,7 @@ function ReservationForm({ formType }) {
     try {
       if (formType === "create") await createReservation(reservationData, abortController.signal);
       else if (formType === "edit") await updateReservation(reservationData, abortController.signal);
+
       setReservationData({...initialFormData});
       history.push(`/dashboard?date=${reservationData.reservation_date}`);
 

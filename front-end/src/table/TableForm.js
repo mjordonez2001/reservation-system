@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import ErrorAlert from "../layout/ErrorAlert";
 import { createTable } from "../utils/api";
 
-// form that creates a new reservation
+// defines the form that creates a new table
 function TableForm() {
 
   // initializes form data for the table state
@@ -18,6 +18,7 @@ function TableForm() {
   // updates tableData on change
   const handleChange = ({ target }) => {
     if (target.name === "capacity") {
+      // makes sure that value for capacity is a number
       setTableData({
         ...tableData,
         [target.name]: Number(target.value)
@@ -37,6 +38,7 @@ function TableForm() {
 
     try {
       await createTable(tableData, abortController.signal);
+      
       setTableData({...initialFormData});
       history.push(`/dashboard`);
     } catch (error) {
