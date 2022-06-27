@@ -38,7 +38,7 @@ function Search() {
         <div className="form-group">
           <label htmlFor="mobile_number">Enter a customer's phone number</label>
           <input 
-            type="number"
+            type="text"
             placeholder="(###-###-####)"
             className="form-control"
             id="mobile_number"

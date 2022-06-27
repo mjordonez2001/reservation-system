@@ -117,7 +117,7 @@ function ReservationForm({ formType }) {
         <div>
           <label htmlFor="mobile_number">Mobile Number</label>
           <input 
-            type="number"
+            type="text"
             placeholder="(###-###-####)"
             className="form-control"
             id="mobile_number"
