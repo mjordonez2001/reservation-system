@@ -1,6 +1,7 @@
 import React from "react";
 import ReservationForm from "./ReservationForm";
 
+// defines the page that edits an existing reservation
 function EditReservation() {
   return (
     <>

@@ -1,6 +1,7 @@
 import React from "react";
 import ReservationForm from "./ReservationForm";
 
+// defines the page that creates a new reservation
 function CreateReservation() {
   return (
     <>
