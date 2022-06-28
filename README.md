@@ -1,7 +1,7 @@
 # Restaurant Reservation System
 
 ## Live Website
-A live version of the Restaurant Reservation System is able to be accessed through Heroku at ![mo-reservation-system-frontend.herokuapp.com/](https://mo-reservation-system-frontend.herokuapp.com/) 
+A live version of the Restaurant Reservation System is able to be accessed through Heroku at [mo-reservation-system-frontend.herokuapp.com/](https://mo-reservation-system-frontend.herokuapp.com/) 
 
 ## Table of Contents
 * [Summary](#summary)
@@ -31,7 +31,7 @@ A live version of the Restaurant Reservation System is able to be accessed throu
   restaurant. Users are able to edit, seat, and cancel reservations from the dashboard. Users can see the reservations for other dates using the "Prev.", "Today", and "Next" buttons.
 </p>
 
-![Dashboard](/README_IMGs/dashboard.png)
+![Dashboard](/README_IMGS/dashboard.png)
 
 ### Creating new reservations 
 <p>
