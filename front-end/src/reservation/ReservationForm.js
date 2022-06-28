@@ -95,7 +95,6 @@ function ReservationForm({ formType }) {
   // html
   return (
     <>
-      <h2 className="d-flex justify-content-center mb-4">{formType === "create" ? "Create reservation" : "Edit reservation" }</h2>
       <ErrorAlert error={reservationsError} />
       <div className="d-flex justify-content-center">
         <form onSubmit={handleSubmit} className="col-6">
